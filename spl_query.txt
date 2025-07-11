@@ -1,0 +1,16 @@
+
+index=usb_logs
+| eval hour=strftime(_time,"%H")
+| apply rf_usb_write_predictor
+| table _time, write_kb, predicted(write_kb)
+
+index=usb_logs
+| eval hour=strftime(_time,"%H")
+| apply rf_usb_write_predictor
+| eval error=abs(write_kb - 'predicted(write_kb)')
+| stats avg(error) as avg_error
+
+index=usb_logs
+| eval hour=strftime(_time,"%H")
+| apply rf_usb_write_predictor
+| where 'predicted(write_kb)' > 8000
