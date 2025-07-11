@@ -1,0 +1,22 @@
+
+Model Name: rf_usb_write_predictor
+Algorithm: Random Forest Regressor
+Trained Using: Splunk MLTK (Machine Learning Toolkit)
+
+Target Variable:
+- write_kb
+
+Feature Variables:
+- read_kb
+- duration
+- hour
+
+Training SPL Command:
+| fit RandomForestRegressor read_kb duration hour into rf_usb_write_predictor
+
+Model Application SPL:
+| apply rf_usb_write_predictor
+
+Description:
+This model was trained within the Splunk Machine Learning Toolkit UI using a synthetic USB device log dataset.
+It predicts the amount of data written (write_kb) during a USB session based on usage patterns.
